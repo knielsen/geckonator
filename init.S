@@ -21,7 +21,6 @@
 .thumb
 
 .global __halt
-.global __Vectors
 .extern main
 
 .section .text.Reset_Handler, "ax", %progbits
@@ -58,54 +57,3 @@ __halt:
 .thumb_set Default_Handler,__halt
 	cpsid	i
 0:	b	0b
-
-
-.section .vectors, "a", %progbits
-
-.macro interrupt name
-	.weak \name
-	.thumb_set \name,Default_Handler
-	.long \name
-.endm
-
-.type __Vectors, %object
-__Vectors:
-	/* the first vector in Cortex is the stack pointer */
-	.long __StackTop                /* top of stack */
-	.long Reset_Handler             /* reset handler */
-	interrupt NMI_Handler           /* nmi handler */
-	interrupt HardFault_Handler     /* hard fault handler */
-	.long Default_Handler           /* reserved */
-	.long Default_Handler           /* reserved */
-	.long Default_Handler           /* reserved */
-	.long Default_Handler           /* reserved */
-	.long Default_Handler           /* reserved */
-	.long Default_Handler           /* reserved */
-	.long Default_Handler           /* reserved */
-	interrupt SVC_Handler           /* svcall handler */
-	.long Default_Handler           /* reserved */
-	.long Default_Handler           /* reserved */
-	interrupt PendSV_Handler        /* pendsv handler */
-	interrupt SysTick_Handler       /* systick handler */
-	/* external interrupts */
-	interrupt DMA_IRQHandler        /*  0 - DMA */
-	interrupt GPIO_EVEN_IRQHandler  /*  1 - GPIO_EVEN */
-	interrupt TIMER0_IRQHandler     /*  2 - TIMER0 */
-	interrupt ACMP0_IRQHandler      /*  3 - ACMP0 */
-	interrupt ADC0_IRQHandler       /*  4 - ADC0 */
-	interrupt I2C0_IRQHandler       /*  5 - I2C0 */
-	interrupt GPIO_ODD_IRQHandler   /*  6 - GPIO_ODD */
-	interrupt TIMER1_IRQHandler     /*  7 - TIMER1 */
-	interrupt USART1_RX_IRQHandler  /*  8 - USART1_RX */
-	interrupt USART1_TX_IRQHandler  /*  9 - USART1_TX */
-	interrupt LEUART0_IRQHandler    /* 10 - LEUART0 */
-	interrupt PCNT0_IRQHandler      /* 11 - PCNT0 */
-	interrupt RTC_IRQHandler        /* 12 - RTC */
-	interrupt CMU_IRQHandler        /* 13 - CMU */
-	interrupt VCMP_IRQHandler       /* 14 - VCMP */
-	interrupt MSC_IRQHandler        /* 15 - MSC */
-	interrupt AES_IRQHandler        /* 16 - AES */
-	interrupt USART0_RX_IRQHandler  /* 17 - USART0_RX */
-	interrupt USART0_TX_IRQHandler  /* 18 - USART0_TX */
-	interrupt USB_IRQHandler        /* 19 - USB */
-	interrupt TIMER2_IRQHandler     /* 20 - TIMER2 */

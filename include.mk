@@ -94,7 +94,7 @@ E=@echo
 Q=@
 endif
 
-sources = init.S main.c
+sources = init.S init2.S main.c
 objects = $(patsubst %,$(OUTDIR)/%.o,$(basename $(sources)))
 
 .PHONY: all release dis clean flash dfu sdk
